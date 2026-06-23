@@ -25,7 +25,7 @@ renamed as (
         last_editor_user_id,
         last_editor_display_name,
         community_owned_date as community_owned_at,
-        link
+        url_link
 
     from source
     where id is not null
