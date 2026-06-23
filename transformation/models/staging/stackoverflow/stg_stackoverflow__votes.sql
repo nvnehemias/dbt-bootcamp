@@ -11,7 +11,7 @@ renamed as (
         post_id,
         vote_type_id,
         creation_date as vote_created_at,
-        user_id as voter_user_id
+        null as voter_user_id
 
     from source
     where id is not null

@@ -18,7 +18,7 @@ renamed as (
         up_votes,
         down_votes,
         age,
-        profile_image,
+        profile_image_url,
         website_url
 
     from source
