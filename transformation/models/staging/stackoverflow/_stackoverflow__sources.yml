@@ -1,0 +1,72 @@
+version: 2
+
+sources:
+  - name: stackoverflow
+    description: >
+      Stack Overflow public dataset on BigQuery. Read-only; queries scan public data
+      and bill to your GCP project. Use the dev target to limit date range and cost.
+    database: bigquery-public-data
+    schema: stackoverflow
+    tables:
+      - name: users
+        description: Stack Overflow user profiles and reputation.
+        columns:
+          - name: id
+            description: Primary key for the user.
+            data_tests:
+              - not_null
+              - unique
+
+      - name: posts_questions
+        description: Question posts.
+        columns:
+          - name: id
+            description: Primary key for the question.
+            data_tests:
+              - not_null
+              - unique
+
+      - name: posts_answers
+        description: Answer posts linked to questions via parent_id.
+        columns:
+          - name: id
+            description: Primary key for the answer.
+            data_tests:
+              - not_null
+              - unique
+
+      - name: votes
+        description: Votes cast on posts.
+        columns:
+          - name: id
+            description: Primary key for the vote.
+            data_tests:
+              - not_null
+              - unique
+
+      - name: comments
+        description: Comments on posts.
+        columns:
+          - name: id
+            description: Primary key for the comment.
+            data_tests:
+              - not_null
+              - unique
+
+      - name: badges
+        description: Badges earned by users.
+        columns:
+          - name: id
+            description: Primary key for the badge award.
+            data_tests:
+              - not_null
+              - unique
+
+      - name: tags
+        description: Tag metadata and usage counts.
+        columns:
+          - name: tag_name
+            description: Primary key tag identifier in the tags table.
+            data_tests:
+              - not_null
+              - unique

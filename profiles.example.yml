@@ -1,0 +1,30 @@
+# Copy to ~/.dbt/profiles.yml and replace YOUR_GCP_PROJECT_ID.
+#
+# Cost controls:
+#   - maximum_bytes_billed caps each query (fail fast instead of a large bill)
+#   - Use target: dev for day-to-day work (recent data only via dev_start_date in dbt_project.yml)
+#   - Use target: prod only when you intentionally want full Stack Overflow history
+#
+transformation:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: YOUR_GCP_PROJECT_ID
+      dataset: dbt_dev
+      location: US
+      threads: 4
+      timeout_seconds: 300
+      # 1 GB per query (~$0.005 max per query at on-demand rates)
+      maximum_bytes_billed: 1000000000
+    prod:
+      type: bigquery
+      method: oauth
+      project: YOUR_GCP_PROJECT_ID
+      dataset: dbt_prod
+      location: US
+      threads: 4
+      timeout_seconds: 900
+      # 10 GB per query for full-history builds
+      maximum_bytes_billed: 10000000000
