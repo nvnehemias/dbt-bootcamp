@@ -1,0 +1,204 @@
+version: 2
+
+models:
+  - name: stg_stackoverflow__users
+    description: Cleaned Stack Overflow users.
+    columns:
+      - name: user_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_stackoverflow__posts_questions
+    description: Cleaned question posts with optional dev date window.
+    columns:
+      - name: question_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_stackoverflow__posts_answers
+    description: Cleaned answer posts linked to questions.
+    columns:
+      - name: answer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_stackoverflow__votes
+    description: Cleaned votes on posts.
+    columns:
+      - name: vote_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_stackoverflow__comments
+    description: Cleaned comments on posts.
+    columns:
+      - name: comment_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_stackoverflow__badges
+    description: Cleaned badges earned by users.
+    columns:
+      - name: badge_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_stackoverflow__tags
+    description: Cleaned tag metadata.
+    columns:
+      - name: tag
+        data_tests:
+          - unique
+          - not_null
+
+  - name: int_question_tags
+    description: One row per question and tag.
+    columns:
+      - name: question_id
+        data_tests:
+          - not_null
+      - name: tag
+        data_tests:
+          - not_null
+
+  - name: wh_users
+    description: Users enriched with badges, activity, and acceptance metrics.
+    columns:
+      - name: user_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: wh_posts
+    description: Questions enriched with parsed tags and comment counts.
+    columns:
+      - name: question_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: wh_answers
+    description: Answers enriched with question context and acceptance flag.
+    columns:
+      - name: answer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: wh_tags
+    description: Tags with answer and unanswered rates.
+    columns:
+      - name: tag
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_users
+    description: User dimension with expertise and activity status.
+    columns:
+      - name: user_id
+        data_tests:
+          - unique
+          - not_null
+      - name: expertise_level
+        data_tests:
+          - accepted_values:
+              values: ['newcomer', 'contributor', 'expert', 'elite']
+      - name: activity_status
+        data_tests:
+          - accepted_values:
+              values: ['active', 'dormant', 'inactive', 'unknown']
+
+  - name: dim_questions
+    description: Question dimension with score categories and hidden gem flag.
+    columns:
+      - name: question_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_answers
+    description: Answer dimension with acceptance and score category.
+    columns:
+      - name: answer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_tags
+    description: Tag dimension with popularity tier and answer rates.
+    columns:
+      - name: tag
+        data_tests:
+          - unique
+          - not_null
+      - name: popularity_tier
+        data_tests:
+          - accepted_values:
+              values: ['top', 'high', 'medium', 'niche']
+
+  - name: dim_tag_specialists
+    description: User-by-tag specialist rankings for domain expertise.
+    columns:
+      - name: user_id
+        data_tests:
+          - not_null
+      - name: tag
+        data_tests:
+          - not_null
+
+  - name: bridge_question_tags
+    description: Bridge table linking questions to tags.
+    columns:
+      - name: question_id
+        data_tests:
+          - not_null
+      - name: tag
+        data_tests:
+          - not_null
+
+  - name: fct_posting_trends
+    description: Monthly question and answer volumes with growth rates.
+    columns:
+      - name: activity_month
+        data_tests:
+          - not_null
+
+  - name: fct_posting_activity
+    description: Posting volume by hour of day and day of week.
+    columns:
+      - name: post_type
+        data_tests:
+          - not_null
+
+  - name: fct_question_quality_monthly
+    description: Monthly question quality metrics.
+    columns:
+      - name: activity_month
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_acceptance_time_by_tag
+    description: Time to accepted answer distribution by tag.
+    columns:
+      - name: tag
+        data_tests:
+          - unique
+          - not_null
+
+  - name: int_tag_cooccurrence
+    description: Tag pair co-occurrence counts across questions.
+    columns:
+      - name: tag_a
+        data_tests:
+          - not_null
+      - name: tag_b
+        data_tests:
+          - not_null
